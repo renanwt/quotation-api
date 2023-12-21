@@ -1,14 +1,14 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import FinancialRecord
-from .serializers import FinancialRecordSerializer, FinancialRecordGetAllSerializer, FinancialRecordGetBRLSerializer, \
+from .serializers import FinancialRecordGetAllSerializer, FinancialRecordGetBRLSerializer, \
     FinancialRecordGetEURSerializer, FinancialRecordGetJPYSerializer
 from .utils import dollar_to_all, date_validator, currency_validator
 from datetime import date, timedelta
 
 
 class FinancialRecordList(generics.GenericAPIView):
-    serializer_class = FinancialRecordSerializer
+    serializer_class = FinancialRecordGetAllSerializer
     queryset = FinancialRecord.objects.all()
 
     def post(self, request):
@@ -27,6 +27,9 @@ class FinancialRecordList(generics.GenericAPIView):
             return Response(f"Failed getting quotation: {e}", status=status.HTTP_404_NOT_FOUND)
 
         try:
+            if self.queryset.filter(date=quotation_date):
+                return Response(f"This date quotation is already recorded.", status=status.HTTP_400_BAD_REQUEST)
+
             # Creating Record
             record = FinancialRecord.objects.create(
                 brl=brl_value,
@@ -36,16 +39,13 @@ class FinancialRecordList(generics.GenericAPIView):
                 date=quotation_date
             )
         except Exception as e:
-            if "UNIQUE constraint" in str(e):
-                return Response(f"This date quotation is already recorded.", status=status.HTTP_400_BAD_REQUEST)
-            else:
-                return Response(f"Failed saving quotation: {e}", status=status.HTTP_400_BAD_REQUEST)
+            return Response(f"Failed saving quotation: {e}", status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = FinancialRecordSerializer(data=record.__dict__)
+        serializer = self.serializer_class(data=record.__dict__)
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request):
         start_date_param = request.query_params.get('start_date', '')
@@ -62,9 +62,8 @@ class FinancialRecordList(generics.GenericAPIView):
             if not date_validator(start_date_param, end_date_param):
                 return Response("Difference between end_date and start_date should be at most 5 days.",
                                 status=status.HTTP_400_BAD_REQUEST)
-            else:
-                start_date = start_date_param
-                end_date = end_date_param
+            start_date, end_date = start_date_param, end_date_param
+
         else:
             if start_date_param:
                 start_date = date.fromisoformat(str(start_date_param))
@@ -75,22 +74,23 @@ class FinancialRecordList(generics.GenericAPIView):
         try:
             if not currency_param:
                 queryset = FinancialRecord.objects.filter(date__range=(str(start_date), str(end_date)))
-                serializer = FinancialRecordGetAllSerializer(queryset, many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            elif currency_param.lower() == 'brl':
-                queryset = FinancialRecord.objects.filter(date__range=(str(start_date), str(end_date)))
-                serializer = FinancialRecordGetBRLSerializer(queryset, many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            elif currency_param.lower() == 'eur':
-                queryset = FinancialRecord.objects.filter(date__range=(str(start_date), str(end_date)))
-                serializer = FinancialRecordGetEURSerializer(queryset, many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            elif currency_param.lower() == 'jpy':
-                queryset = FinancialRecord.objects.filter(date__range=(str(start_date), str(end_date)))
-                serializer = FinancialRecordGetJPYSerializer(queryset, many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                serializer_class = self.serializer_class
             elif currency_param.lower() == 'usd':
                 return Response("USD quotation in USD is 1.00. Please try 'BRL', 'EUR' or 'JPY'.",
                                 status=status.HTTP_200_OK)
+            else:
+                queryset = FinancialRecord.objects.filter(date__range=(str(start_date), str(end_date)))
+                serializer_class = {
+                    'brl': FinancialRecordGetBRLSerializer,
+                    'eur': FinancialRecordGetEURSerializer,
+                    'jpy': FinancialRecordGetJPYSerializer,
+                }.get(currency_param.lower(), None)
+
+                if serializer_class is None:
+                    return Response("Invalid currency parameter.", status=status.HTTP_400_BAD_REQUEST)
+
+            serializer = serializer_class(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
         except Exception as e:
             return Response(f"Failed getting quotation: {e}", status=status.HTTP_400_BAD_REQUEST)

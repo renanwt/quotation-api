@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "1294fde8-f42f-4f25-85b1-5cd3e570f17c",
+		"name": "QuotationApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21080516"
+	},
+	"item": [
+		{
+			"name": "Save quotation to DB",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"quotation_date\": \"2023-11-14\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/records/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"records",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Quotations from DB",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currency\": \"brl\",\r\n    \"value\": 123\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/records?start_date=2023-11-26&end_date=2023-11-30",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"records"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2023-11-26"
+						},
+						{
+							"key": "end_date",
+							"value": "2023-11-30"
+						},
+						{
+							"key": "currency",
+							"value": "usd",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VAT API Tests",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currency\": \"brl\",\r\n    \"value\": 123\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.vatcomply.com/rates?date=2023-12-20&base=USD",
+					"protocol": "https",
+					"host": [
+						"api",
+						"vatcomply",
+						"com"
+					],
+					"path": [
+						"rates"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2023-12-20"
+						},
+						{
+							"key": "base",
+							"value": "USD"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

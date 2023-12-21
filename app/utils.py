@@ -10,9 +10,9 @@ def dollar_to_all(date_ref):
         data = response.json()
 
         dollar_quotation = {
-            'BRL': data['rates']['BRL'],
-            'EUR': data['rates']['EUR'],
-            'JPY': data['rates']['JPY']
+            'BRL': round(data['rates']['BRL'], 2),
+            'EUR': round(data['rates']['EUR'], 2),
+            'JPY': round(data['rates']['JPY'], 2)
         }
         return dollar_quotation
     else:

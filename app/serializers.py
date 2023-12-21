@@ -2,16 +2,10 @@ from rest_framework import serializers
 from .models import FinancialRecord
 
 
-class FinancialRecordSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FinancialRecord
-        fields = '__all__'
-
-
 class FinancialRecordGetAllSerializer(serializers.ModelSerializer):
     class Meta:
         model = FinancialRecord
-        fields = ['date', 'brl', 'eur', 'jpy']
+        fields = ['date', 'usd', 'brl', 'eur', 'jpy']
 
 
 class FinancialRecordGetBRLSerializer(serializers.ModelSerializer):
