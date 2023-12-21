@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-z^)jka@d44y03a3*bdfz^sx44f)zmwu5kzsk28oim$o@w3+2_r
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'quotation-api-iljn.onrender.com'
+    'quotation-api-iljn.onrender.com', '127.0.0.1', 'localhost'
 ]
 
 

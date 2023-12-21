@@ -123,9 +123,8 @@ class HighchartsView(generics.GenericAPIView):
                 end_date = date.fromisoformat(str(end_date_param))
                 start_date = end_date - timedelta(days=4)
         try:
-            response = requests.get('http://127.0.0.1:8000/api/records', params={'start_date': start_date,
-                                                                                 'end_date': end_date,
-                                                                                 'currency': currency_param})
+            response = requests.get('https://quotation-api-iljn.onrender.com/api/records',
+                                    params={'start_date': start_date, 'end_date': end_date, 'currency': currency_param})
         except Exception as e:
             return Response(f"Failed getting quotation: {e}", status=status.HTTP_400_BAD_REQUEST)
         if response.status_code == 200:
