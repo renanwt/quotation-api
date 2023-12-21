@@ -7,13 +7,13 @@
 	},
 	"item": [
 		{
-			"name": "Save quotation to DB",
+			"name": "Save quotation (local)",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"quotation_date\": \"2023-11-14\"\r\n}",
+					"raw": "{\r\n    \"quotation_date\": \"2023-11-10\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -21,8 +21,8 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/records/",
-					"protocol": "http",
+					"raw": "https://127.0.0.1:8000/api/records/",
+					"protocol": "https",
 					"host": [
 						"127",
 						"0",
@@ -40,7 +40,7 @@
 			"response": []
 		},
 		{
-			"name": "Get Quotations from DB",
+			"name": "Get Quotations (local)",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -57,8 +57,8 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/records?start_date=2023-11-26&end_date=2023-11-30",
-					"protocol": "http",
+					"raw": "https://127.0.0.1:8000/api/records?end_date=2023-12-20",
+					"protocol": "https",
 					"host": [
 						"127",
 						"0",
@@ -72,17 +72,180 @@
 					],
 					"query": [
 						{
-							"key": "start_date",
-							"value": "2023-11-26"
-						},
-						{
 							"key": "end_date",
-							"value": "2023-11-30"
+							"value": "2023-12-20"
 						},
 						{
 							"key": "currency",
 							"value": "usd",
 							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Chart (local)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currency\": \"brl\",\r\n    \"value\": 123\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://127.0.0.1:8000/api/chart?currency=brl&start_date=2023-12-10&end_date=2023-12-14",
+					"protocol": "https",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"chart"
+					],
+					"query": [
+						{
+							"key": "currency",
+							"value": "brl"
+						},
+						{
+							"key": "start_date",
+							"value": "2023-12-10"
+						},
+						{
+							"key": "end_date",
+							"value": "2023-12-14"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save quotation (PRD)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"quotation_date\": \"2023-12-03\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://quotation-api-iljn.onrender.com/api/records/",
+					"protocol": "https",
+					"host": [
+						"quotation-api-iljn",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"records",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Quotations (PRD)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currency\": \"brl\",\r\n    \"value\": 123\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://quotation-api-iljn.onrender.com/api/records",
+					"protocol": "https",
+					"host": [
+						"quotation-api-iljn",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"records"
+					],
+					"query": [
+						{
+							"key": "currency",
+							"value": "usd",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Chart (PRD)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currency\": \"brl\",\r\n    \"value\": 123\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://quotation-api-iljn.onrender.com/api/chart?currency=brl&start_date=2023-12-10&end_date=2023-12-14",
+					"protocol": "https",
+					"host": [
+						"quotation-api-iljn",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"chart"
+					],
+					"query": [
+						{
+							"key": "currency",
+							"value": "brl"
+						},
+						{
+							"key": "start_date",
+							"value": "2023-12-10"
+						},
+						{
+							"key": "end_date",
+							"value": "2023-12-14"
 						}
 					]
 				}
