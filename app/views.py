@@ -8,6 +8,8 @@ from .serializers import FinancialRecordGetAllSerializer, FinancialRecordGetBRLS
 from .utils import dollar_to_all, date_validator, currency_validator, date_autodata
 from datetime import date
 
+API_URL = 'http://127.0.0.1:8000/api/records/'
+
 
 class FinancialRecordGetPostView(generics.GenericAPIView):
     serializer_class = FinancialRecordGetAllSerializer
@@ -108,7 +110,7 @@ class HighchartsView(generics.GenericAPIView):
                             status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            response = requests.get('http://127.0.0.1:8000/api/records/',
+            response = requests.get(API_URL,
                                     params={'start_date': start_date, 'end_date': end_date, 'currency': currency_param})
             response.raise_for_status()
         except Exception as e:
