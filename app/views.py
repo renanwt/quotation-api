@@ -5,8 +5,10 @@ from rest_framework.response import Response
 from .models import FinancialRecord
 from .serializers import FinancialRecordGetAllSerializer, FinancialRecordGetBRLSerializer, \
     FinancialRecordGetEURSerializer, FinancialRecordGetJPYSerializer
-from .utils import dollar_to_all, date_validator, currency_validator
-from datetime import date, timedelta
+from .utils import dollar_to_all, date_validator, currency_validator, date_autodata
+from datetime import date
+
+API_URL = 'http://127.0.0.1:8000/api/records/'
 
 
 class FinancialRecordGetPostView(generics.GenericAPIView):
@@ -51,28 +53,22 @@ class FinancialRecordGetPostView(generics.GenericAPIView):
 
     def get(self, request):
         start_date_param = request.query_params.get('start_date', '')
-        end_date_param = request.query_params.get('end_date', date.today())
+        end_date_param = request.query_params.get('end_date', '')
         currency_param = request.query_params.get('currency', None)
-
-        start_date = end_date = None
 
         if currency_param and not currency_validator(currency_param):
             return Response("Not valid currency. It must be: 'brl', 'eur' or 'jpy'.",
                             status=status.HTTP_400_BAD_REQUEST)
 
-        if start_date_param and end_date_param:
+        if not date_validator(start_date_param, end_date_param):
             if not date_validator(start_date_param, end_date_param):
-                return Response("Difference between end_date and start_date should be at most 5 days.",
+                return Response("Difference between end_date and start_date should be between 0 and 5 days.",
                                 status=status.HTTP_400_BAD_REQUEST)
-            start_date, end_date = start_date_param, end_date_param
 
-        else:
-            if start_date_param:
-                start_date = date.fromisoformat(str(start_date_param))
-                end_date = start_date + timedelta(days=4)
-            else:
-                end_date = date.fromisoformat(str(end_date_param))
-                start_date = end_date - timedelta(days=4)
+        date_data = date_autodata(start_date_param, end_date_param)
+        start_date = date_data['start_date']
+        end_date = date_data['end_date']
+
         try:
             if not currency_param:
                 queryset = FinancialRecord.objects.filter(date__range=(str(start_date), str(end_date))).order_by('date')
@@ -101,34 +97,28 @@ class FinancialRecordGetPostView(generics.GenericAPIView):
 class HighchartsView(generics.GenericAPIView):
 
     def get(self, request):
-        # Extract query parameters
-        start_date_param = request.query_params.get('start_date', '')
-        end_date_param = request.query_params.get('end_date', date.today())
+        start_date = request.query_params.get('start_date', '')
+        end_date = request.query_params.get('end_date', '')
         currency_param = request.query_params.get('currency', None)
 
-        start_date = end_date = None
-
         if currency_param and not currency_validator(currency_param):
-            return Response("Not valid currency. It must be: 'brl', 'eur' or 'jpy.', status=400")
+            return Response("Not valid currency. It must be: 'brl', 'eur' or 'jpy'.",
+                            status=status.HTTP_400_BAD_REQUEST)
 
-        if start_date_param and end_date_param:
-            if not date_validator(start_date_param, end_date_param):
-                return Response("Difference between end_date and start_date should be at most 5 days.", status=400)
-            start_date, end_date = start_date_param, end_date_param
-        else:
-            if start_date_param:
-                start_date = date.fromisoformat(str(start_date_param))
-                end_date = start_date + timedelta(days=4)
-            else:
-                end_date = date.fromisoformat(str(end_date_param))
-                start_date = end_date - timedelta(days=4)
+        if not date_validator(start_date, end_date):
+            return Response("Difference between end_date and start_date should be between 0 and 5 days.",
+                            status=status.HTTP_400_BAD_REQUEST)
+
         try:
-            response = requests.get('https://quotation-api-iljn.onrender.com/api/records',
+            response = requests.get(API_URL,
                                     params={'start_date': start_date, 'end_date': end_date, 'currency': currency_param})
+            response.raise_for_status()
         except Exception as e:
             return Response(f"Failed getting quotation: {e}", status=status.HTTP_400_BAD_REQUEST)
-        if response.status_code == 200:
-            financial_data = response.json()
-            return render(request, 'index.html', {'chart_data': financial_data})
-        else:
+
+        try:
+            if response.status_code == 200:
+                financial_data = response.json()
+                return render(request, 'index.html', {'chart_data': financial_data})
+        except Exception as e:
             return Response(f"Failed to get financial data charts: {e}", status=status.HTTP_400_BAD_REQUEST)
