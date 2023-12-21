@@ -8,7 +8,7 @@ from .serializers import FinancialRecordGetAllSerializer, FinancialRecordGetBRLS
 from .utils import dollar_to_all, date_validator, currency_validator, date_autodata
 from datetime import date
 
-API_URL = 'http://127.0.0.1:8000/api/records/'
+API_URL = 'http://quotation-api-iljn.onrender.com/api/records/'
 
 
 class FinancialRecordGetPostView(generics.GenericAPIView):
