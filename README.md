@@ -14,7 +14,7 @@ To run local tests:
 
 ## Use the Postman Collection Attached to execute the API.
 
-****
+***
 ## Dev Endpoints for local tests
 
 >[GET] http://127.0.0.1:8000/api/records/
