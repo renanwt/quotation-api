@@ -21,8 +21,8 @@
 					}
 				},
 				"url": {
-					"raw": "https://127.0.0.1:8000/api/records/",
-					"protocol": "https",
+					"raw": "http://127.0.0.1:8000/api/records/",
+					"protocol": "http",
 					"host": [
 						"127",
 						"0",
@@ -57,8 +57,8 @@
 					}
 				},
 				"url": {
-					"raw": "https://127.0.0.1:8000/api/records?end_date=2023-12-20",
-					"protocol": "https",
+					"raw": "http://127.0.0.1:8000/api/records?currency=brl&end_date=2023-12-22&start_date=2023-12-12",
+					"protocol": "http",
 					"host": [
 						"127",
 						"0",
@@ -72,13 +72,16 @@
 					],
 					"query": [
 						{
-							"key": "end_date",
-							"value": "2023-12-20"
+							"key": "currency",
+							"value": "brl"
 						},
 						{
-							"key": "currency",
-							"value": "usd",
-							"disabled": true
+							"key": "end_date",
+							"value": "2023-12-22"
+						},
+						{
+							"key": "start_date",
+							"value": "2023-12-12"
 						}
 					]
 				}
@@ -103,8 +106,8 @@
 					}
 				},
 				"url": {
-					"raw": "https://127.0.0.1:8000/api/chart?currency=brl&start_date=2023-12-10&end_date=2023-12-14",
-					"protocol": "https",
+					"raw": "http://127.0.0.1:8000/api/chart?currency=brl&start_date=2023-12-10&end_date=2023-12-14",
+					"protocol": "http",
 					"host": [
 						"127",
 						"0",
@@ -141,7 +144,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"quotation_date\": \"2023-12-03\"\r\n}",
+					"raw": "{\r\n    \"quotation_date\": \"2023-12-06\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -149,8 +152,8 @@
 					}
 				},
 				"url": {
-					"raw": "https://quotation-api-iljn.onrender.com/api/records/",
-					"protocol": "https",
+					"raw": "http://quotation-api-iljn.onrender.com/api/records/",
+					"protocol": "http",
 					"host": [
 						"quotation-api-iljn",
 						"onrender",
@@ -183,8 +186,8 @@
 					}
 				},
 				"url": {
-					"raw": "https://quotation-api-iljn.onrender.com/api/records",
-					"protocol": "https",
+					"raw": "http://quotation-api-iljn.onrender.com/api/records?currency=brl&start_date=2023-11-25",
+					"protocol": "http",
 					"host": [
 						"quotation-api-iljn",
 						"onrender",
@@ -197,8 +200,11 @@
 					"query": [
 						{
 							"key": "currency",
-							"value": "usd",
-							"disabled": true
+							"value": "brl"
+						},
+						{
+							"key": "start_date",
+							"value": "2023-11-25"
 						}
 					]
 				}
@@ -223,8 +229,8 @@
 					}
 				},
 				"url": {
-					"raw": "https://quotation-api-iljn.onrender.com/api/chart?currency=brl&start_date=2023-12-10&end_date=2023-12-14",
-					"protocol": "https",
+					"raw": "http://quotation-api-iljn.onrender.com/api/chart?currency=brl&start_date=2023-12-10&end_date=2023-12-14",
+					"protocol": "http",
 					"host": [
 						"quotation-api-iljn",
 						"onrender",
