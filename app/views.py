@@ -132,5 +132,4 @@ class HighchartsView(generics.GenericAPIView):
             financial_data = response.json()
             return render(request, 'index.html', {'chart_data': financial_data})
         else:
-            error_message = f"Failed to get financial data. Status code: {response.status_code}"
-            return render(request, 'error.html', {'error_message': error_message})
+            return Response(f"Failed to get financial data charts: {e}", status=status.HTTP_400_BAD_REQUEST)
