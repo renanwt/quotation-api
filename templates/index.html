@@ -1,0 +1,78 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quotation Highcharts</title>
+    <!-- Include Highcharts library -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+</head>
+<body>
+    <div id="chart-container" style="width:100%; height:400px;"></div>
+
+    <script>
+        // Embed Highcharts code here
+        var chartData = {{ chart_data|safe }};
+
+        // Extract dates and currencies from the chartData
+        var dates = chartData.map(function(item) {
+            return item.date;
+        });
+
+        var usdValues = chartData.map(function(item) {
+            return parseFloat(item.usd);
+        });
+
+        var brlValues = chartData.map(function(item) {
+            return parseFloat(item.brl);
+        });
+
+        var eurValues = chartData.map(function(item) {
+            return parseFloat(item.eur);
+        });
+
+        var jpyValues = chartData.map(function(item) {
+            return parseFloat(item.jpy);
+        });
+
+        Highcharts.chart('chart-container', {
+            title: {
+                text: 'Currencies Quotation'
+            },
+            xAxis: {
+                categories: dates
+            },
+            yAxis: {
+                title: {
+                    text: 'Currency Value'
+                }
+            },
+            series: [
+                {
+                    name: 'USD',
+                    data: usdValues
+                },
+                {
+                    name: 'BRL',
+                    data: brlValues
+                },
+                {
+                    name: 'EUR',
+                    data: eurValues
+                },
+                {
+                    name: 'JPY',
+                    data: jpyValues
+                }
+            ],
+            chart: {
+                type: 'line' // You can change this to other chart types like 'bar', 'column', etc.
+            }
+        });
+    </script>
+</body>
+</html>
+
+<body>
+
+</body>
+</html>
