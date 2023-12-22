@@ -42,6 +42,6 @@ To run local tests:
 >>  "currency": "brl"
 
 ## Production Endpoints:
->> [ GET, POST ]  https://quotation-api-iljn.onrender.com/api/records
+>> [ GET, POST ]  https://quotation-api-iljn.onrender.com/api/records/
 >
 >> [ GET ]  https://quotation-api-iljn.onrender.com/api/chart
