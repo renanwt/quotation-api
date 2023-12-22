@@ -1,9 +1,9 @@
 # Quotation API 💻📈
 
+Welcome to quotation API.
+
 Here you can Post Quotations based in a date. And collect USD quotations in JPY, BRL, EUR.
 Check the rules below.
-
-Welcome to quotation API.
 
 To run the API locally
 (Windows) execute:
