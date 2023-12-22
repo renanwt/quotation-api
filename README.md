@@ -44,4 +44,4 @@ To run local tests:
 ## Production Endpoints:
 >> [ GET, POST ]  https://quotation-api-iljn.onrender.com/api/records
 >
->> [ GET ]  https://quotation-api-iljn.onrender.com/api/records
+>> [ GET ]  https://quotation-api-iljn.onrender.com/api/chart
