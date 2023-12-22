@@ -77,10 +77,22 @@ WSGI_APPLICATION = 'quotation.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# This DATA should be protected from logs. Now it exposed because it a test/Django Challenge.
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'quotation_db',
+        'USER': 'avnadmin',
+        'PASSWORD': 'AVNS_oj8WQEyLVu4llaRGgB7',
+        'HOST': 'mysql-8991dc2-renanwt-804f.a.aivencloud.com',
+        'PORT': '21544',
     }
 }
 
