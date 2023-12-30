@@ -32,6 +32,7 @@ def date_validator(start_date_param, end_date_param):
 
 
 def date_autodata(start_date_param, end_date_param):
+    start_date = end_date = ''
     if start_date_param and end_date_param:
         start_date = start_date_param
         end_date = end_date_param
@@ -41,9 +42,6 @@ def date_autodata(start_date_param, end_date_param):
     elif end_date_param:
         end_date = date.fromisoformat(str(end_date_param))
         start_date = end_date - timedelta(days=4)
-    else:
-        end_date = date.fromisoformat(str(date.today()))
-        start_date = date.fromisoformat(str(date.today())) - timedelta(days=4)
     date_data = {
         'start_date': start_date,
         'end_date': end_date
