@@ -178,7 +178,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"currency\": \"brl\",\r\n    \"value\": 123\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -186,7 +186,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://quotation-api-iljn.onrender.com/api/records?currency=brl&start_date=2023-11-25",
+					"raw": "http://quotation-api-iljn.onrender.com/api/records?currency=brl,eur&start_date=2023-11-25",
 					"protocol": "http",
 					"host": [
 						"quotation-api-iljn",
@@ -200,7 +200,7 @@
 					"query": [
 						{
 							"key": "currency",
-							"value": "brl"
+							"value": "brl,eur"
 						},
 						{
 							"key": "start_date",
