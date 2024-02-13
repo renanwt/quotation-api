@@ -42,3 +42,7 @@ To run local tests:
 >> [ GET, POST ]  https://quotation-api-iljn.onrender.com/api/records/
 >
 >> [ GET ]  https://quotation-api-iljn.onrender.com/api/chart
+
+
+## Populating Recent Data:
+For having recent data updated, just run the "data_populating.py" script. Setting the right date into line 22. 
